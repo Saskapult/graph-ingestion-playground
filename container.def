@@ -1,0 +1,61 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%labels
+    Author KSmith
+    Description: Ollama kg-gen processor
+
+%files
+    generation_job.sh
+    get_data.sh
+    main.py
+    graph.py
+    pdf.py
+    pyproject.toml
+    uv.lock
+
+%post
+    apt-get update 
+    apt-get install -y python3 python3-pip wget curl
+
+    WORKDIR=/tmp/build
+    mkdir -p $WORKDIR
+    cd $WORKDIR
+
+    # pip3 install uv
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    curl -LsSf https://ollama.com/install.sh | sh
+
+    cd /
+    rm -rf $WORKDIR
+
+    uv sync
+
+    echo "Pulling Phi4"
+    if ! ollama pull phi4; then
+        echo "Model phi4 download failed!" >&2
+        exit 1
+    fi
+
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+%environment
+    export PYTHONUNBUFFERED=1
+    export PATH="/usr/local/bin:$PATH"
+    export OLLAMA_HOST=0.0.0.0
+    export OLLAMA_HOME=/opt/ollama-storage
+
+
+%startscript
+    echo "Starting Ollama phi4"
+    ollama serve > /var/log/ollama/ollama.log 2>&1 &
+    sleep 5
+
+    echo " phi4 service started"
+    tail -f /var/log/ollama.log
+
+%runscript
+    echo "[INFO] Ollama phi4 service is running."
+
+    exec /bin/bash
