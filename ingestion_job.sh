@@ -7,7 +7,7 @@
 # Expects a single pdf file 
 INPUT="fema_nims_doctrine-2017.pdf"
 # Todo: Hash the file idk
-OUTDIR="scratch/$(date +"%FT%T")"
+OUTDIR="/home/$USER/scratch/$(date +"%FT%T")"
 
 # Set up termination signal handling
 function sig_handler_USR1() {
@@ -18,6 +18,8 @@ function sig_handler_USR1() {
 	exit 2
 }
 trap 'sig_handler_USR1' SIGUSR1
+
+mkdir -p $OUTDIR
 
 # Should be very fast becuase we've already installed everything 
 # Profile perfromance impact of this versus node-local storage
