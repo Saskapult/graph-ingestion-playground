@@ -10,8 +10,8 @@ From: ollama/ollama
     export OLLAMA_MODELS=/opt/ollama_models
 
 %post
-    apt-get update
-    apt-get install curl
+    apt-get update 
+    apt-get install -y curl
 
     # This is not set from %environment and must be set here again
     export OLLAMA_HOME=/opt/ollama_storage
