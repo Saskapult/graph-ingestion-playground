@@ -36,7 +36,6 @@ echo "Starting apptainer"
 module load apptainer
 apptainer instance start \
 --nv \
---net --network-args "portmap=11434:11434/tcp" \
 "$SLURM_TMPDIR/ollama-phi4.sif" ollama-phi4
 
 # I'm assuming it's fine to leave these in the home storage
