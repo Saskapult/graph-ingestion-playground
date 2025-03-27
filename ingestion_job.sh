@@ -1,3 +1,4 @@
+#!/bin/bash
 #SBATCH --time=00:15:00
 #SBATCH --account=def-ycoady
 #SBATCH --gpus=p100:1            # Request one P100 GPU

@@ -1,3 +1,4 @@
+#!/bin/bash
 #SBATCH --time=00:1:00
 #SBATCH --account=def-ycoady
 
