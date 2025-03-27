@@ -4,7 +4,11 @@ From: ollama/ollama
 %labels
     Author: KSmith
     Description: Ollama with Phi-4 and uv
-    
+
+%files
+    pyproject.toml
+    uv.lock
+
 %environment
     export OLLAMA_HOME=/opt/ollama_storage
     export OLLAMA_MODELS=/opt/ollama_models
