@@ -32,31 +32,21 @@ cp $INPUT $SLURM_TMPDIR
 echo "Moving apptainer to node local storage"
 cp ollama-phi4.sif $SLURM_TMPDIR
 
-
 echo "Starting apptainer"
 module load apptainer
-apptainer run \
+apptainer instance start \
 --nv \
-"$SLURM_TMPDIR/ollama-phi4.sif" "bash sky_command.sh"
+"$SLURM_TMPDIR/ollama-phi4.sif" ollama-phi4
 
-# echo "Starting apptainer"
-# module load apptainer
-# apptainer instance start \
-# --nv \
-# "$SLURM_TMPDIR/ollama-phi4.sif" ollama-phi4
+# I'm assuming it's fine to leave these in the home storage
+# TODO: the checkpoints should be written to network storage 
+# Add a checkpoints directory option to the script 
+echo "Running script"
+#uv run main.py "$SLURM_TMPDIR/$INPUT" "$SLURM_TMPDIR/$OUTDIR"
+apptainer exec instance://ollama-phi4 "bash sky_command.sh"
 
-# # I'm assuming it's fine to leave these in the home storage
-# # TODO: the checkpoints should be written to network storage 
-# # Add a checkpoints directory option to the script 
-# echo "Running script"
-# #uv run main.py "$SLURM_TMPDIR/$INPUT" "$SLURM_TMPDIR/$OUTDIR"
-# curl http://localhost:11434/api/generate -d '{
-#   "model": "phi4",
-#   "prompt":"Why is the sky blue?"
-# }' > "$OUTDIR/answer"
-
-# echo "Stopping apptainer"
-# apptainer instance stop ollama-phi4
+echo "Stopping apptainer"
+apptainer instance stop ollama-phi4
 
 echo "Done!"
 exit 0
