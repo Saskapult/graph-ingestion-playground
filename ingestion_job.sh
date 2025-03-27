@@ -20,8 +20,6 @@ function sig_handler_USR1() {
 }
 trap 'sig_handler_USR1' SIGUSR1
 
-mkdir -p $OUTDIR
-
 # Should be very fast becuase we've already installed everything 
 # Profile perfromance impact of this versus node-local storage
 echo "Syncing uv dependencies"
@@ -43,8 +41,9 @@ apptainer instance start \
 # TODO: the checkpoints should be written to network storage 
 # Add a checkpoints directory option to the script 
 echo "Running script"
-#uv run main.py "$SLURM_TMPDIR/$INPUT" "$SLURM_TMPDIR/$OUTDIR"
-apptainer exec instance://ollama-phi4 bash sky_command.sh
+mkdir -p $OUTDIR
+apptainer exec instance://ollama-phi4 uv run main.py --only 3 -o "$OUTDIR" "$SLURM_TMPDIR/$INPUT" 
+#apptainer exec instance://ollama-phi4 bash sky_command.sh
 
 echo "Stopping apptainer"
 apptainer instance stop ollama-phi4
