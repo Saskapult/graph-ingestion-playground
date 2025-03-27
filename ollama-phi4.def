@@ -1,0 +1,45 @@
+Bootstrap: docker
+From: ollama/ollama
+
+%labels
+    Author: KSmith
+    Description: Ollama with Phi-4
+    
+%environment
+    export OLLAMA_HOME=/opt/ollama_storage
+    export OLLAMA_MODELS=/opt/ollama_models
+
+%post
+    # This is not set from %environment and must be set here again
+    export OLLAMA_HOME=/opt/ollama_storage
+    export OLLAMA_MODELS=/opt/ollama_models
+    mkdir -p $OLLAMA_HOME
+    mkdir -p $OLLAMA_MODELS
+
+    echo "Starting ollama"
+    ollama serve &
+    sleep 5
+
+    echo "Pulling phi4"
+    if ! ollama pull phi4; then
+        echo "Model phi4 download failed!" >&2
+        exit 1
+    fi
+    
+    echo "Stopping ollama"
+    kill $!
+
+%startscript
+    echo "Starting ollama"
+    ollama serve >> $HOME/ollama.log 2>&1 &
+    sleep 5
+
+    echo "service started"
+    tail -f $HOME/ollama.log
+
+%runscript
+    echo "Starting ollama"
+    ollama serve >> $HOME/ollama.log 2>&1 &
+    sleep 5
+
+    exec /bin/bash
