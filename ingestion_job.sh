@@ -44,7 +44,7 @@ apptainer instance start \
 # Add a checkpoints directory option to the script 
 echo "Running script"
 #uv run main.py "$SLURM_TMPDIR/$INPUT" "$SLURM_TMPDIR/$OUTDIR"
-apptainer exec instance://ollama-phi4 "bash sky_command.sh"
+apptainer exec instance://ollama-phi4 bash sky_command.sh
 
 echo "Stopping apptainer"
 apptainer instance stop ollama-phi4
