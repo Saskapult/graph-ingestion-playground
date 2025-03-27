@@ -38,8 +38,8 @@ From: ollama/ollama
     tail -f $HOME/ollama.log
 
 %runscript
-    echo "Starting ollama"
+    # echo "Starting ollama"
     ollama serve >> $HOME/ollama.log 2>&1 &
     sleep 5
 
-    exec /bin/bash
+    exec sh -c "$@"
