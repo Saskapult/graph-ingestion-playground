@@ -8,6 +8,7 @@ From: ollama/ollama
 %environment
     export OLLAMA_HOME=/opt/ollama_storage
     export OLLAMA_MODELS=/opt/ollama_models
+    export PATH="/root/.local/bin/:$PATH"
 
 %post
     apt-get update 
