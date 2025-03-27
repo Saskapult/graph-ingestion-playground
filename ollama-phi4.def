@@ -3,7 +3,7 @@ From: ollama/ollama
 
 %labels
     Author: KSmith
-    Description: Ollama with Phi-4
+    Description: Ollama with Phi-4 and uv
     
 %environment
     export OLLAMA_HOME=/opt/ollama_storage
@@ -12,6 +12,9 @@ From: ollama/ollama
 %post
     apt-get update 
     apt-get install -y curl
+
+    echo "Installing uv"
+    curl -LsSf https://astral.sh/uv/install.sh | sh
 
     # This is not set from %environment and must be set here again
     export OLLAMA_HOME=/opt/ollama_storage
