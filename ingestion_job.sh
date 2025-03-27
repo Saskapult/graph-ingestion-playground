@@ -37,7 +37,7 @@ echo "Starting apptainer"
 module load apptainer
 apptainer run \
 --nv \
-"$SLURM_TMPDIR/ollama-phi4.sif" 'curl http://localhost:11434/api/generate -d "{ \"model\": \"phi4\" \"prompt\":\"Why is the sky blue?\" }"' > "$OUTDIR/answer"
+"$SLURM_TMPDIR/ollama-phi4.sif" "bash sky_command.sh"
 
 # echo "Starting apptainer"
 # module load apptainer
