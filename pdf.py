@@ -40,12 +40,7 @@ def make_chunks(pages, chunk_size=100, spillover=10):
 	i = 0
 	while True:
 		segment = words[i:(i+chunk_size)]
-		i += len(segment)
-		if i < len(words):
-			i -= spillover
-		else:
-			break
-
+		
 		st = 0
 		en = len(pages)
 		for position, page in position_page:
@@ -60,12 +55,18 @@ def make_chunks(pages, chunk_size=100, spillover=10):
 		# Impact unknown 
 		chunks_sources.append((" ".join(segment), (st, en)))
 
+		i += len(segment)
+		if i < len(words):
+			i -= spillover
+		else:
+			break
+
 	return chunks_sources
 
 
 if __name__ == "__main__":
 	pages = get_pdf_pages_text("fema_nims_doctrine-2017.pdf")
-	for i, (entry, (st, en)) in enumerate(make_chunks(pages)):
+	for i, (entry, (st, en)) in enumerate(make_chunks(pages)[:2]):
 		print(i, st, en)
 	# for g in make_chunks(pages)[:2]:
 		# print(g)
