@@ -22,8 +22,8 @@ trap 'sig_handler_USR1' SIGUSR1
 
 # Should be very fast becuase we've already installed everything 
 # Profile perfromance impact of this versus node-local storage
-echo "Syncing uv dependencies"
-uv sync 
+# echo "Syncing uv dependencies"
+# uv sync 
 
 echo "Moving input to node-local storage"
 cp $INPUT $SLURM_TMPDIR
