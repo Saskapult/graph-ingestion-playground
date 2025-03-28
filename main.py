@@ -2,6 +2,7 @@ from kg_gen import KGGen, Graph
 import graph
 import pdf
 import argparse
+import os
 
 
 def main():
