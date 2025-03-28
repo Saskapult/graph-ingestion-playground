@@ -22,7 +22,7 @@ def main():
 	# TODO: Make it smarter 
 	# Maybe aggregate text until a threshold is reached, then attach sources to that 
 	# Not sure how to split it though, by sentences or words or characters? 
-	chunks = pdf.make_pdf_chunks(pages)
+	chunks = pdf.make_chunks(pages)
 	
 	# print("First three chunks")
 	# for c in chunks[:3]:
@@ -35,7 +35,7 @@ def main():
 		model="ollama/phi4",
 	)
 
-	for i, entry in enumerate(chunks):
+	for i, (entry, (st, en)) in enumerate(chunks):
 		# Early termination option for testing
 		if args.only != "" and args.only.isdigit() and int(args.only) <= i:
 			print(f"Stopping after first {args.only} chunks")
@@ -44,7 +44,7 @@ def main():
 		print(f"Process chunk {i+1}/{len(chunks)}")
 
 		# Check for checkpoint
-		chunk_output_path = args.output + f"/chunk-{i}.json"
+		chunk_output_path = args.output + f"/chunk-{i}-{st}-{en}.json"
 		if os.path.isfile(chunk_output_path):
 			print("\tSkipping due to checkpoint detection!")
 			continue

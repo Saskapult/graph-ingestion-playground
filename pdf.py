@@ -20,21 +20,52 @@ def make_pdf_chunks(pages_text, expand_chars=50):
 	return chunks
 
 
-# # Ingest text until a character target is passed 
-# # Returns chunks along with the page numbers they draw from
-# def make_smarter_chunks(pages_text, chunk_min=5000, overlap=100):
-# 	# full_text = "".join(pages_text)
+# Creates collections of words, returns them and the page range they were pulled from
+def make_chunks(pages, chunk_size=100, spillover=10):
+	# The number of words passed at the end of a page
+	page_position = {}
+	cur_count = 0
+	for i, page_text in enumerate(pages):
+		words = page_text.split()
+		cur_count += len(words)
+		page_position[i+1] = cur_count
 
-# 	chunks = []
-# 	page_i = 0
-# 	page_j = 0
-# 	chunk = ""
-# 	refs = []
-# 	while page_i < len(pages_text):
-# 		page = pages_text[page_i]
-# 		# If remaining text fits in the chunk
-# 		if (len(page) - page_j) < 
-	
+	# Reverse to find page number by position
+	position_page = [(v, k) for k, v in page_position.items()]
+	position_page.sort()
+
+	# Collect (chunk, (st, en))
+	chunks_sources = []
+	words = [word for page in pages for word in page.split()]
+	i = 0
+	while True:
+		segment = words[i:(i+chunk_size)]
+		i += len(segment)
+		if i < len(words):
+			i -= spillover
+		else:
+			break
+
+		st = 0
+		en = len(pages)
+		for position, page in position_page:
+			if position > i:
+				if position > i + chunk_size:
+					en = page
+					break
+			else:
+				st = page
+
+		# Splitting by words does lose whitespace information
+		# Impact unknown 
+		chunks_sources.append((" ".join(segment), (st, en)))
+
+	return chunks_sources
 
 
-# 	pass
+if __name__ == "__main__":
+	pages = get_pdf_pages_text("fema_nims_doctrine-2017.pdf")
+	for i, (entry, (st, en)) in enumerate(make_chunks(pages)):
+		print(i, st, en)
+	# for g in make_chunks(pages)[:2]:
+		# print(g)
