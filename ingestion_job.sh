@@ -25,8 +25,8 @@ trap 'sig_handler_USR1' SIGUSR1
 # echo "Syncing uv dependencies"
 # uv sync 
 
-echo "Moving input to node-local storage"
-cp $INPUT $SLURM_TMPDIR
+# echo "Moving input to node-local storage"
+# cp $INPUT $SLURM_TMPDIR
 
 echo "Moving apptainer to node local storage"
 cp ollama-phi4.sif $SLURM_TMPDIR
@@ -42,7 +42,7 @@ apptainer instance start \
 # Add a checkpoints directory option to the script 
 echo "Running script"
 mkdir -p $OUTDIR
-apptainer exec instance://ollama-phi4 uv run main.py --only 3 -o "$OUTDIR" "$SLURM_TMPDIR/$INPUT" 
+apptainer exec instance://ollama-phi4 uv run main.py --only 3 -o "$OUTDIR" "$INPUT" 
 #apptainer exec instance://ollama-phi4 bash sky_command.sh
 
 echo "Stopping apptainer"
