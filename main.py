@@ -37,7 +37,7 @@ def main():
 
 	for i, (entry, (st, en)) in enumerate(chunks):
 		# Early termination option for testing
-		if args.only != "" and args.only.isdigit() and int(args.only) >= i:
+		if args.only != "" and args.only.isdigit() and i >= int(args.only):
 			print(f"Stopping after first {args.only} chunks")
 			break
 
