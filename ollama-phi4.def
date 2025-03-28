@@ -2,7 +2,7 @@ Bootstrap: docker
 From: ubuntu:22.04
 
 %labels
-    Author: KSmith
+    Author: zeyu167 and KSmith
     Description: Ollama with Phi-4 (and uv)
 
 %files
@@ -33,6 +33,7 @@ From: ubuntu:22.04
     wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
     dpkg -i cuda-keyring_1.1-1_all.deb
     rm cuda-keyring_1.1-1_all.deb
+    apt-get update
     apt-get -y install pciutils cuda-toolkit-12-8 cuda-drivers
 
     echo "Installing ollama"
