@@ -34,7 +34,7 @@ From: ubuntu:22.04
     export OLLAMA_MODELS=/opt/ollama_models
     mkdir -p $OLLAMA_HOME
     mkdir -p $OLLAMA_MODELS
-    curl https://ollama.com/install.sh | sh
+    curl -fsSL https://ollama.com/install.sh | sh
 
     echo "Starting ollama"
     ollama serve &
