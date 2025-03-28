@@ -49,12 +49,12 @@ def main():
 			print("\tSkipping due to checkpoint detection!")
 			continue
 		
-		graph = kg.generate(
+		kgraph = kg.generate(
 			input_data=entry,
 		)
 		
 		print(f"\tSaving as '{chunk_output_path}'")
-		graph_json = graph.graph_to_json(graph)
+		graph_json = graph.graph_to_json(kgraph)
 		graph.save_json(graph_json, chunk_output_path)
 	
 	print(f"All chunks processed, output is in {args.output}")
