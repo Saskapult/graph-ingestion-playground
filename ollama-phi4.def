@@ -13,7 +13,7 @@ From: ollama/ollama
     export OLLAMA_HOME=/opt/ollama_storage
     export OLLAMA_MODELS=/opt/ollama_models
     export PATH="/root/.local/bin/:$PATH"
-    export UV_PROJECT_ENVIRONMENT="/usr/local/"
+    export UV_PROJECT_ENVIRONMENT="/app"
 
 %post
     apt-get update 
@@ -24,9 +24,10 @@ From: ollama/ollama
     curl -LsSf https://astral.sh/uv/install.sh | sh
     export PATH="/root/.local/bin/:$PATH"
 
-    echo "Syncing uv"
-    export UV_PROJECT_ENVIRONMENT="/usr/local/"
-    uv sync --locked --no-dev
+    echo "Syncing uv pakages with container python"
+    export UV_PROJECT_ENVIRONMENT="/app"
+    export UV_LINK_MODE=copy
+    uv sync --locked --no-dev --no-install-project
 
     # This is not set from %environment and must be set here again
     export OLLAMA_HOME=/opt/ollama_storage
