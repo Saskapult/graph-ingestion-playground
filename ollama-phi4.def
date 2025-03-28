@@ -1,9 +1,9 @@
 Bootstrap: docker
-From: ollama/ollama
+From: ubuntu:22.04
 
 %labels
     Author: KSmith
-    Description: Ollama with Phi-4 and uv
+    Description: Ollama with Phi-4 (and uv)
 
 %files
     pyproject.toml
@@ -24,16 +24,17 @@ From: ollama/ollama
     curl -LsSf https://astral.sh/uv/install.sh | sh
     export PATH="/root/.local/bin/:$PATH"
 
-    echo "Syncing uv pakages with container python"
+    echo "Syncing uv packages with container"
     export UV_PROJECT_ENVIRONMENT="/app"
     export UV_LINK_MODE=copy
     uv sync --locked --no-dev --no-install-project
 
-    # This is not set from %environment and must be set here again
+    echo "Installing ollama"
     export OLLAMA_HOME=/opt/ollama_storage
     export OLLAMA_MODELS=/opt/ollama_models
     mkdir -p $OLLAMA_HOME
     mkdir -p $OLLAMA_MODELS
+    curl https://ollama.com/install.sh | sh
 
     echo "Starting ollama"
     ollama serve &
@@ -48,6 +49,11 @@ From: ollama/ollama
     echo "Stopping ollama"
     kill $!
 
+    echo "Cleaning"
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+    echo "Done"
+
 %startscript
     echo "Starting ollama"
     ollama serve >> $HOME/ollama.log 2>&1 &
@@ -61,4 +67,5 @@ From: ollama/ollama
     ollama serve >> $HOME/ollama.log 2>&1 &
     sleep 5
 
-    exec sh -c "$@"
+    #exec sh -c "$@"
+    exec /bin/bash
