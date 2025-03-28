@@ -6,9 +6,9 @@
 #SBATCH --signal=B:SIGUSR1@120   # Signal at 120 seconds before termination
 
 # Expects a single pdf file 
-INPUT="fema_nims_doctrine-2017.pdf"
-# Todo: Hash the file idk
-OUTDIR="/home/$USER/scratch/$(date +"%FT%T")"
+INPUT=$1
+# Output directory 
+OUTDIR=$2
 
 # Set up termination signal handling
 function sig_handler_USR1() {

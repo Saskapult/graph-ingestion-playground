@@ -7,10 +7,10 @@ Creates a knowledge graph using [kg-gen](https://github.com/stair-lab/kg-gen) us
 	- This will take a long time
 	- If it throws errors just run it again
 - Run `bash get_data.sh` to fetch the data 
-- Run `sbatch ingestion_job.sh`
+- Run `sbatch ingestion_job.sh fema_nims_doctrine-2017.pdf ./output`
 	- This currently only processes the first three documents and throws an error for the third one (fix incoming shortly)
 - Tun `sq` a bunch of times to know when it's done 
-- Look in `/home/<your account>/scratch/<time of submission>` for results. 
+- Look in `./output` for results. 
 
 
 ## The Documentation
