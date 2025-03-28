@@ -175,5 +175,4 @@ cython_debug/
 
 fema_nims_doctrine-2017.pdf
 graphs/*
-scratch/*
 ollama-phi4.sif
