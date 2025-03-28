@@ -6,5 +6,6 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "kg-gen>=0.1.6",
+    "litellm>=1.63.11",
     "pypdf>=5.4.0",
 ]
