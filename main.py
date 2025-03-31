@@ -3,6 +3,7 @@ import graph
 import pdf
 import argparse
 import os
+import time
 
 
 def main():
@@ -49,9 +50,15 @@ def main():
 			print("\tSkipping due to checkpoint detection!")
 			continue
 		
+		generate_st = time.time()
 		kgraph = kg.generate(
 			input_data=entry,
 		)
+		generate_en = time.time()
+		generate_duration = generate_en - generate_st
+		# Timing output doesn't currently use chunking
+		# Could append to a json file in the future 
+		print(f"\tChunk processed in {:.2f}s")
 		
 		print(f"\tSaving as '{chunk_output_path}'")
 		graph_json = graph.graph_to_json(kgraph)
