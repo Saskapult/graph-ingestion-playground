@@ -60,7 +60,8 @@ def main():
 
 	print("Connecting to model")
 	kg = KGGen(
-		model="ollama/phi4",
+		model=os.getenv("KG_GEN_MODEL", "ollama/phi4"),
+		api_key=os.getenv("KG_GEN_API_KEY", ""),
 	)
 
 	for i, (entry, (st, en)) in enumerate(chunks):
