@@ -19,7 +19,7 @@ def aggregate(kg, chunks_dir):
 		if fname.startswith("chunk-"):
 			print(f"Loading chunk graph '{fname}'")
 			g = graph.load_graph(chunks_dir + "/" + fname)
-			graphs.append(graph)
+			graphs.append(g)
 
 	print(f"Aggregating {len(graphs)} graphs")
 
@@ -94,7 +94,7 @@ def main():
 	
 	print(f"All chunks processed, output is in {args.output}")
 
-	if args.w:
+	if args.a:
 		print("Beginning aggregation")
 		aggregate(kg, args.output)
 	
